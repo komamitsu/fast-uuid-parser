@@ -4,8 +4,8 @@ A UUID string parser that is 4 times faster than `UUID.fromString()`.
 
 ```
 Benchmark                            Mode  Cnt     Score     Error   Units
-FastUuidParserBenchmark.fromString  thrpt   20  7829.416 $B!^(B 160.044  ops/ms
-NormalUUIDBenchmark.fromString      thrpt   20  1895.571 $B!^(B  36.391  ops/ms
+FastUuidParserBenchmark.fromString  thrpt   20  7829.416 ± 160.044  ops/ms
+NormalUUIDBenchmark.fromString      thrpt   20  1895.571 ±  36.391  ops/ms
 ```
 
 ## Usage
