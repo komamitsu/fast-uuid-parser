@@ -13,6 +13,7 @@ install:
 
 script:
   - ./gradlew check --debug --stacktrace --info
+  - ./gradlew jmh
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
