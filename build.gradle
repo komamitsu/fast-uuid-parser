@@ -11,9 +11,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.5"
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.5.0"
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -25,7 +24,6 @@ apply plugin: 'jacoco'
 apply plugin: 'signing'
 apply plugin: 'me.champeau.gradle.jmh'
 apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
 
@@ -69,7 +67,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives javadocJar, sourcesJar, shadowJar
+    archives javadocJar, sourcesJar
 }
 
 signing {
