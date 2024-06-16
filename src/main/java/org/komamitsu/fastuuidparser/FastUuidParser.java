@@ -1,5 +1,6 @@
 package org.komamitsu.fastuuidparser;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,29 +9,30 @@ public final class FastUuidParser
     public static UUID fromString(String s)
     {
         Objects.requireNonNull(s);
+        byte[] bytes = s.getBytes(StandardCharsets.US_ASCII);
 
-        if (s.length() != 36
-                || s.charAt(8) != '-'
-                || s.charAt(13) != '-'
-                || s.charAt(18) != '-'
-                || s.charAt(23) != '-') {
+        if (bytes.length != 36
+                || bytes[8] != '-'
+                || bytes[13] != '-'
+                || bytes[18] != '-'
+                || bytes[23] != '-') {
             throw new IllegalArgumentException("Invalid UUID-format: " + s);
         }
 
-        long mostSigBits = parseHexStrToLong(s, 0, 18);
+        long mostSigBits = parseHexStrBytesToLong(bytes, 0, 18);
 
-        long leastSigBits = parseHexStrToLong(s, 19, 36);
+        long leastSigBits = parseHexStrBytesToLong(bytes, 19, 36);
 
         return new UUID(mostSigBits, leastSigBits);
     }
 
-    private static long parseHexStrToLong(String s, int startPos, int endPos)
+    private static long parseHexStrBytesToLong(byte[] bytes, int startPos, int endPos)
     {
         long result = 0;
 
         for (int cursor = startPos; cursor < endPos; cursor++) {
 
-            final byte digit = hexToDigit(s, cursor);
+            final byte digit = hexStrBytesToDigit(bytes, cursor);
 
             //skip signal
             if(digit == -1){
@@ -47,9 +49,9 @@ public final class FastUuidParser
         return -result;
     }
 
-    private static byte hexToDigit(String s, int position)
+    private static byte hexStrBytesToDigit(byte[] bytes, int position)
     {
-        switch (s.charAt(position)) {
+        switch (bytes[position]) {
             case '-': return -1;
             case '0': return 0;
             case '1': return 1;
@@ -73,7 +75,7 @@ public final class FastUuidParser
             case 'E': return 14;
             case 'f':
             case 'F': return 15;
-            default:  throw new IllegalArgumentException(String.format("Invalid UUID-format at position %d: %s", position, s));
+            default:  throw new IllegalArgumentException(String.format("Invalid UUID-format at position %d: %s", position, new String(bytes)));
         }
     }
 }
