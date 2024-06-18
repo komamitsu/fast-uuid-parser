@@ -43,8 +43,8 @@ findbugs {
 }
 
 jmh {
-    warmupIterations = 20
-    iterations = 10
+    warmupIterations = 8
+    iterations = 8
     fork = 2
     failOnError = true
 }
