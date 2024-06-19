@@ -1,21 +1,16 @@
 package org.komamitsu.fastuuidparser;
 
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(Theories.class)
-public class FastUuidParserTest
+
+class FastUuidParserTest
 {
-    @DataPoints
-    public static final String[] INVALID_UUID_STR = {
+    private static final String[] INVALID_UUID_STRINGS = {
             // "00000123-0123-0123-0123-000000000123" is valid
             "00000123-0123-0123-0123-0000000001234",
             "00000123-0123-0123-0123-00000000012",
@@ -50,34 +45,35 @@ public class FastUuidParserTest
     };
 
     @Test
-    public void fromString()
+    void fromString()
     {
         for (int i = 0; i < 1000000; i++) {
             UUID uuid = UUID.randomUUID();
             String uuidStr = uuid.toString();
-            assertThat(FastUuidParser.fromString(uuidStr), is(uuid));
+            assertEquals(uuid, FastUuidParser.fromString(uuidStr));
         }
 
         {
             String uuidStr = "00000000-0000-0000-0000-000000000000";
-            assertThat(FastUuidParser.fromString(uuidStr), is(UUID.fromString(uuidStr)));
+            assertEquals(UUID.fromString(uuidStr), FastUuidParser.fromString(uuidStr));
         }
 
         {
             String uuidStr = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-            assertThat(FastUuidParser.fromString(uuidStr), is(UUID.fromString(uuidStr)));
+            assertEquals(UUID.fromString(uuidStr), FastUuidParser.fromString(uuidStr));
         }
 
         {
             String uuidStr = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
-            assertThat(FastUuidParser.fromString(uuidStr), is(UUID.fromString(uuidStr)));
+            assertEquals(UUID.fromString(uuidStr), FastUuidParser.fromString(uuidStr));
         }
     }
 
-    @Theory
-    @Test(expected = IllegalArgumentException.class)
-    public void fromStringWithInvalidUUIDStr(String invalidUUIDStr)
+    @Test
+    void fromStringWithInvalidUUIDStr()
     {
-        FastUuidParser.fromString(invalidUUIDStr);
+        for (String invalidUUIDStr : INVALID_UUID_STRINGS) {
+            assertThrows(IllegalArgumentException.class, () -> FastUuidParser.fromString(invalidUUIDStr));
+        }
     }
 }
