@@ -30,7 +30,7 @@ public final class FastUuidParser
 
         for (int cursor = startPos; cursor < endPos; cursor++) {
 
-            final byte digit = hexToDigit(s, cursor);
+            final int digit = hexToDigit(s, cursor);
 
             //skip signal
             if(digit == -1){
@@ -47,20 +47,20 @@ public final class FastUuidParser
         return -result;
     }
 
-    private static byte hexToDigit(String s, int position)
+    private static int hexToDigit(String s, int position)
     {
-        char c = s.charAt(position);
-        if (c == '-') {
+        int b = s.charAt(position);
+        if (b == '-') {
             return -1;
         }
-        if (c >= '0' && c <= '9') {
-            return (byte) (c - '0');
+        if (b >= '0' && b <= '9') {
+            return b - '0';
         }
-        if (c >= 'a' && c <= 'f') {
-            return (byte) (c - 'a' + 10);
+        if (b >= 'a' && b <= 'f') {
+            return b - 'a' + 10;
         }
-        if (c >= 'A' && c <= 'F') {
-            return (byte) (c - 'A' + 10);
+        if (b >= 'A' && b <= 'F') {
+            return b - 'A' + 10;
         }
         throw new IllegalArgumentException(String.format("Invalid UUID-format at position %d: %s", position, s));
     }
