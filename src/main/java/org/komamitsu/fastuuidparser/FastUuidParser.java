@@ -56,11 +56,10 @@ public final class FastUuidParser
         if (b >= '0' && b <= '9') {
             return b - '0';
         }
-        if (b >= 'a' && b <= 'f') {
-            return b - 'a' + 10;
-        }
-        if (b >= 'A' && b <= 'F') {
-            return b - 'A' + 10;
+
+        int indexFromA = (b - 'A') % ('a' - 'A');
+        if (indexFromA <= 5) {
+            return indexFromA + 10;
         }
         throw new IllegalArgumentException(String.format("Invalid UUID-format at position %d: %s", position, s));
     }

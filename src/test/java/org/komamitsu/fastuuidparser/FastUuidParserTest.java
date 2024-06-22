@@ -50,6 +50,12 @@ class FastUuidParserTest
         for (int i = 0; i < 1000000; i++) {
             UUID uuid = UUID.randomUUID();
             String uuidStr = uuid.toString();
+            if (i % 2 == 0) {
+                uuidStr = uuidStr.toUpperCase();
+            }
+            else {
+                uuidStr = uuidStr.toLowerCase();
+            }
             assertEquals(uuid, FastUuidParser.fromString(uuidStr));
         }
 
