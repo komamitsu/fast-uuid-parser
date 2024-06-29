@@ -12,16 +12,11 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class FastUuidParserBenchmark
 {
-    static final String UUID_STR_ZEROS = "00000000-0000-0000-0000-000000000000";
-    static final String UUID_STR_LOWER_FS = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-    static final String UUID_STR_UPPER_FS = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
+    private int index;
 
     @Benchmark
-    @OperationsPerInvocation(3)
     public void fromString()
     {
-        FastUuidParser.fromString(UUID_STR_ZEROS);
-        FastUuidParser.fromString(UUID_STR_LOWER_FS);
-        FastUuidParser.fromString(UUID_STR_UPPER_FS);
+        FastUuidParser.fromString(Uuids.UUIDS[index++ % Uuids.NUM_OF_UUIDS]);
     }
 }

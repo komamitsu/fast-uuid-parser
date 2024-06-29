@@ -9,20 +9,15 @@ import org.openjdk.jmh.annotations.State;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static org.komamitsu.fastuuidparser.FastUuidParserBenchmark.UUID_STR_LOWER_FS;
-import static org.komamitsu.fastuuidparser.FastUuidParserBenchmark.UUID_STR_UPPER_FS;
-import static org.komamitsu.fastuuidparser.FastUuidParserBenchmark.UUID_STR_ZEROS;
-
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class NormalUUIDBenchmark
 {
+    private int index;
+
     @Benchmark
-    @OperationsPerInvocation(3)
     public void fromString()
     {
-        UUID.fromString(UUID_STR_ZEROS);
-        UUID.fromString(UUID_STR_LOWER_FS);
-        UUID.fromString(UUID_STR_UPPER_FS);
+        UUID.fromString(Uuids.UUIDS[index++ % Uuids.NUM_OF_UUIDS]);
     }
 }
