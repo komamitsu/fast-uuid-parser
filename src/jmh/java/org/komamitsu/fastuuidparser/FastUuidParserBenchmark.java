@@ -1,7 +1,6 @@
 package org.komamitsu.fastuuidparser;
 
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.OperationsPerInvocation;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
@@ -17,6 +16,7 @@ public class FastUuidParserBenchmark
     @Benchmark
     public void fromString()
     {
-        FastUuidParser.fromString(Uuids.UUIDS[index++ % Uuids.NUM_OF_UUIDS]);
+        int i = (index++ << 1) >>> 1;
+        FastUuidParser.fromString(Uuids.UUIDS[i % Uuids.NUM_OF_UUIDS]);
     }
 }
